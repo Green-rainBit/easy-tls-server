@@ -1,0 +1,21 @@
+syntax = "v1"
+
+type Request {
+	Domain string `path:"domain"`
+}
+
+type Response {
+	Domain            string `json:"domain"`
+	CertURL           string `json:"certUrl"`
+	CertStableURL     string `json:"certStableUrl"`
+	PrivateKey        []byte `json:"privateKey"`
+	Certificate       []byte `json:"certificate"`
+	IssuerCertificate string `json:"issuerCertificate"`
+	CSR               string `json:"cSR"`
+}
+
+service tls-api {
+	@handler TlsHandler
+	get /getTls/:domain (Request) returns (Response)
+}
+
