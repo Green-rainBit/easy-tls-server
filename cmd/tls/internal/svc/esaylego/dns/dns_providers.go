@@ -1,10 +1,13 @@
 package dns
 
 import (
-	"esay-tls-server/cmd/tls/internal/svc/esaylego/alidns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/alidns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/azure"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/cloudflare"
 	"fmt"
 
+	"github.com/go-acme/lego/providers/dns/bindman"
+	"github.com/go-acme/lego/providers/dns/bluecat"
 	"github.com/go-acme/lego/providers/dns/fastdns"
 	"github.com/go-acme/lego/providers/dns/linodev4"
 	"github.com/go-acme/lego/v4/challenge"
@@ -68,14 +71,14 @@ func NewDNSChallengeProviderByName(name string, values map[string]string) (chall
 		return acmedns.NewDNSProvider()
 	case "alidns":
 		return alidns.NewDNSProviderByValues(values)
-	// case "azure":
-	// 	return azure.NewDNSProvider()
-	// case "auroradns":
-	// 	return auroradns.NewDNSProvider()
-	// case "bindman":
-	// 	return bindman.NewDNSProvider()
-	// case "bluecat":
-	// 	return bluecat.NewDNSProvider()
+	case "azure":
+		return azure.NewDNSProviderByValues(values)
+	case "auroradns":
+		return auroradns.NewDNSProviderByValues(values)
+	case "bindman":
+		return bindman.NewDNSProvider()
+	case "bluecat":
+		return bluecat.NewDNSProvider()
 	case "cloudflare":
 		return cloudflare.NewDNSProviderByValues(values)
 	case "cloudns":
