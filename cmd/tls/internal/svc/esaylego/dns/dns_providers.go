@@ -26,29 +26,29 @@ import (
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/fastdns"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gandi"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gandiv5"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gcloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/glesys"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/godaddy"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/hostingde"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/httpreq"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/iij"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/inwx"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/joker"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/lightsail"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/linode"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/linodev4"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/mydnsjp"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namecheap"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namedotcom"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namesilo"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/netcup"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/nifcloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/ns1"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/oraclecloud"
 	"fmt"
 
-	"github.com/go-acme/lego/providers/dns/linodev4"
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/go-acme/lego/v4/challenge/dns01"
-	"github.com/go-acme/lego/v4/providers/dns/gcloud"
-	"github.com/go-acme/lego/v4/providers/dns/glesys"
-	"github.com/go-acme/lego/v4/providers/dns/godaddy"
-	"github.com/go-acme/lego/v4/providers/dns/hostingde"
-	"github.com/go-acme/lego/v4/providers/dns/httpreq"
-	"github.com/go-acme/lego/v4/providers/dns/iij"
-	"github.com/go-acme/lego/v4/providers/dns/inwx"
-	"github.com/go-acme/lego/v4/providers/dns/joker"
-	"github.com/go-acme/lego/v4/providers/dns/lightsail"
-	"github.com/go-acme/lego/v4/providers/dns/linode"
-	"github.com/go-acme/lego/v4/providers/dns/mydnsjp"
-	"github.com/go-acme/lego/v4/providers/dns/namecheap"
-	"github.com/go-acme/lego/v4/providers/dns/namedotcom"
-	"github.com/go-acme/lego/v4/providers/dns/namesilo"
-	"github.com/go-acme/lego/v4/providers/dns/netcup"
-	"github.com/go-acme/lego/v4/providers/dns/nifcloud"
-	"github.com/go-acme/lego/v4/providers/dns/ns1"
-	"github.com/go-acme/lego/v4/providers/dns/oraclecloud"
 	"github.com/go-acme/lego/v4/providers/dns/otc"
 	"github.com/go-acme/lego/v4/providers/dns/ovh"
 	"github.com/go-acme/lego/v4/providers/dns/pdns"
@@ -119,45 +119,45 @@ func NewDNSChallengeProviderByName(name string, values map[string]string) (chall
 	case "gandiv5":
 		return gandiv5.NewDNSProviderByValues(values)
 	case "glesys":
-		return glesys.NewDNSProvider()
+		return glesys.NewDNSProviderByValues(values)
 	case "gcloud":
-		return gcloud.NewDNSProvider()
+		return gcloud.NewDNSProviderByValues(values)
 	case "godaddy":
-		return godaddy.NewDNSProvider()
+		return godaddy.NewDNSProviderByValues(values)
 	case "hostingde":
-		return hostingde.NewDNSProvider()
+		return hostingde.NewDNSProviderByValues(values)
 	case "httpreq":
-		return httpreq.NewDNSProvider()
+		return httpreq.NewDNSProviderByValues(values)
 	case "iij":
-		return iij.NewDNSProvider()
+		return iij.NewDNSProviderByValues(values)
 	case "inwx":
-		return inwx.NewDNSProvider()
+		return inwx.NewDNSProviderByValues(values)
 	case "joker":
-		return joker.NewDNSProvider()
+		return joker.NewDNSProviderByValues(values)
 	case "lightsail":
-		return lightsail.NewDNSProvider()
+		return lightsail.NewDNSProviderByValues(values)
 	case "linode":
-		return linode.NewDNSProvider()
+		return linode.NewDNSProviderByValues(values)
 	case "linodev4":
-		return linodev4.NewDNSProvider()
+		return linodev4.NewDNSProviderByValues(values)
 	case "manual":
 		return dns01.NewDNSProviderManual()
 	case "mydnsjp":
-		return mydnsjp.NewDNSProvider()
+		return mydnsjp.NewDNSProviderByValues(values)
 	case "namecheap":
-		return namecheap.NewDNSProvider()
+		return namecheap.NewDNSProviderByValues(values)
 	case "namedotcom":
-		return namedotcom.NewDNSProvider()
+		return namedotcom.NewDNSProviderByValues(values)
 	case "namesilo":
-		return namesilo.NewDNSProvider()
+		return namesilo.NewDNSProviderByValues(values)
 	case "netcup":
-		return netcup.NewDNSProvider()
+		return netcup.NewDNSProviderByValues(values)
 	case "nifcloud":
-		return nifcloud.NewDNSProvider()
+		return nifcloud.NewDNSProviderByValues(values)
 	case "ns1":
-		return ns1.NewDNSProvider()
+		return ns1.NewDNSProviderByValues(values)
 	case "oraclecloud":
-		return oraclecloud.NewDNSProvider()
+		return oraclecloud.NewDNSProviderByValues(values)
 	case "otc":
 		return otc.NewDNSProvider()
 	case "ovh":
