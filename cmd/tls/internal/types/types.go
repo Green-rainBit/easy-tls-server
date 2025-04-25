@@ -4,7 +4,7 @@
 package types
 
 type Request struct {
-	Domain string `path:"domain"`
+	Domains []string `form:"domains"`
 }
 
 type Response struct {

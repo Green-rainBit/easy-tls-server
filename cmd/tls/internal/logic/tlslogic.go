@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"esay-tls-server/cmd/tls/internal/svc"
 	"esay-tls-server/cmd/tls/internal/types"
@@ -24,8 +26,12 @@ func NewTlsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TlsLogic {
 }
 
 func (l *TlsLogic) Tls(req *types.Request) (resp *types.Response, err error) {
-	mapDomain := l.svcCtx.Config.LegoConf.DomainMap[req.Domain]
-	resource, err := l.svcCtx.LegoSerivce.GetTlsByDomain(req.Domain, mapDomain["DNS_CHALLENGE"], mapDomain)
+	domains := strings.Join(req.Domains, ",")
+	mapDomain, ok := l.svcCtx.Config.LegoConf.DomainMap[domains]
+	if !ok {
+		return nil, fmt.Errorf("domain %s not found", domains)
+	}
+	resource, err := l.svcCtx.LegoSerivce.GetTlsByDomain(req.Domains, mapDomain["DNS_CHALLENGE"], mapDomain)
 	if err != nil {
 		return nil, err
 	}

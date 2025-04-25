@@ -1,7 +1,7 @@
 syntax = "v1"
 
 type Request {
-	Domain string `path:"domain"`
+	Domains []string `form:"domains"`
 }
 
 type Response {
@@ -16,6 +16,6 @@ type Response {
 
 service tls-api {
 	@handler TlsHandler
-	get /getTls/:domain (Request) returns (Response)
+	get /getTls (Request) returns (Response)
 }
 

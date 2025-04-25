@@ -16,7 +16,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/getTls/:domain",
+				Path:    "/getTls",
 				Handler: TlsHandler(serverCtx),
 			},
 		},

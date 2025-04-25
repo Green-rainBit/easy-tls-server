@@ -45,25 +45,25 @@ import (
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/nifcloud"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/ns1"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/oraclecloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/otc"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/ovh"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/pdns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/rackspace"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/rfc2136"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/route53"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/sakuracloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/selectel"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/stackpath"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/transip"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vegadns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/versio"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vscale"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vultr"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/zoneee"
 	"fmt"
 
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/go-acme/lego/v4/challenge/dns01"
-	"github.com/go-acme/lego/v4/providers/dns/otc"
-	"github.com/go-acme/lego/v4/providers/dns/ovh"
-	"github.com/go-acme/lego/v4/providers/dns/pdns"
-	"github.com/go-acme/lego/v4/providers/dns/rackspace"
-	"github.com/go-acme/lego/v4/providers/dns/rfc2136"
-	"github.com/go-acme/lego/v4/providers/dns/route53"
-	"github.com/go-acme/lego/v4/providers/dns/sakuracloud"
-	"github.com/go-acme/lego/v4/providers/dns/selectel"
-	"github.com/go-acme/lego/v4/providers/dns/stackpath"
-	"github.com/go-acme/lego/v4/providers/dns/transip"
-	"github.com/go-acme/lego/v4/providers/dns/vegadns"
-	"github.com/go-acme/lego/v4/providers/dns/versio"
-	"github.com/go-acme/lego/v4/providers/dns/vscale"
-	"github.com/go-acme/lego/v4/providers/dns/vultr"
-	"github.com/go-acme/lego/v4/providers/dns/zoneee"
 )
 
 func NewDNSChallengeProviderByName(name string, values map[string]string) (challenge.Provider, error) {
@@ -159,35 +159,35 @@ func NewDNSChallengeProviderByName(name string, values map[string]string) (chall
 	case "oraclecloud":
 		return oraclecloud.NewDNSProviderByValues(values)
 	case "otc":
-		return otc.NewDNSProvider()
+		return otc.NewDNSProviderByValues(values)
 	case "ovh":
-		return ovh.NewDNSProvider()
+		return ovh.NewDNSProviderByValues(values)
 	case "pdns":
-		return pdns.NewDNSProvider()
+		return pdns.NewDNSProviderByValues(values)
 	case "rackspace":
-		return rackspace.NewDNSProvider()
+		return rackspace.NewDNSProviderByValues(values)
 	case "route53":
-		return route53.NewDNSProvider()
+		return route53.NewDNSProviderByValues(values)
 	case "rfc2136":
-		return rfc2136.NewDNSProvider()
+		return rfc2136.NewDNSProviderByValues(values)
 	case "sakuracloud":
-		return sakuracloud.NewDNSProvider()
+		return sakuracloud.NewDNSProviderByValues(values)
 	case "stackpath":
-		return stackpath.NewDNSProvider()
+		return stackpath.NewDNSProviderByValues(values)
 	case "selectel":
-		return selectel.NewDNSProvider()
+		return selectel.NewDNSProviderByValues(values)
 	case "transip":
-		return transip.NewDNSProvider()
+		return transip.NewDNSProviderByValues(values)
 	case "vegadns":
-		return vegadns.NewDNSProvider()
+		return vegadns.NewDNSProviderByValues(values)
 	case "versio":
-		return versio.NewDNSProvider()
+		return versio.NewDNSProviderByValues(values)
 	case "vultr":
-		return vultr.NewDNSProvider()
+		return vultr.NewDNSProviderByValues(values)
 	case "vscale":
-		return vscale.NewDNSProvider()
+		return vscale.NewDNSProviderByValues(values)
 	case "zoneee":
-		return zoneee.NewDNSProvider()
+		return zoneee.NewDNSProviderByValues(values)
 	default:
 		return nil, fmt.Errorf("unrecognized DNS provider: %s", name)
 	}

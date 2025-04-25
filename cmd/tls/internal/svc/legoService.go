@@ -4,6 +4,7 @@ import (
 	"crypto"
 	"crypto/x509"
 	"encoding/base64"
+	"fmt"
 	"log"
 
 	"esay-tls-server/cmd/tls/internal/svc/esaylego"
@@ -82,7 +83,7 @@ type LegoSerivce struct {
 	client *esaylego.EsayClient
 }
 
-func (t *LegoSerivce) GetTlsByDomain(domain, name string, values map[string]string) (*certificate.Resource, error) {
+func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[string]string) (*certificate.Resource, error) {
 	provider, err := dns.NewDNSChallengeProviderByName(name, values)
 	if err != nil {
 		return nil, err
@@ -91,8 +92,11 @@ func (t *LegoSerivce) GetTlsByDomain(domain, name string, values map[string]stri
 	solversManager.SetDNS01Provider(provider)
 	prober := resolver.NewProber(solversManager)
 	certifier := certificate.NewCertifier(t.client.GetCore(), prober, t.client.GetCertifierOptionse())
+	if len(domains) == 0 {
+		return nil, fmt.Errorf("domains not is empty")
+	}
 	request := certificate.ObtainRequest{
-		Domains: []string{domain},
+		Domains: domains,
 		Bundle:  true,
 	}
 	certificates, err := certifier.Obtain(request)
