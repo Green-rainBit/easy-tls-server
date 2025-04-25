@@ -8,8 +8,7 @@ import (
 )
 
 func NewDNSProviderByValues(values map[string]string) (*acmedns.DNSProvider, error) {
-	_, ok := values[acmedns.EnvAPIBase]
-	if ok {
+	if values[acmedns.EnvAPIBase] == "" {
 		return nil, fmt.Errorf("acme-dns EnvAPIBase is nil")
 	}
 

@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	aazure "github.com/Azure/go-autorest/autorest/azure"
-	"github.com/go-acme/lego/platform/config/env"
 	"github.com/go-acme/lego/v4/providers/dns/azure"
 )
 
@@ -32,12 +31,12 @@ func NewDNSProviderByValues(values map[string]string) (*azure.DNSProvider, error
 		config.ActiveDirectoryEndpoint = environment.ActiveDirectoryEndpoint
 	}
 
-	config.SubscriptionID = env.GetOrFile(azure.EnvSubscriptionID)
-	config.ResourceGroup = env.GetOrFile(azure.EnvResourceGroup)
-	config.ClientSecret = env.GetOrFile(azure.EnvClientSecret)
-	config.ClientID = env.GetOrFile(azure.EnvClientID)
-	config.TenantID = env.GetOrFile(azure.EnvTenantID)
-	config.PrivateZone = env.GetOrDefaultBool(azure.EnvPrivateZone, false)
+	config.SubscriptionID = values[azure.EnvSubscriptionID]
+	config.ResourceGroup = values[azure.EnvResourceGroup]
+	config.ClientSecret = values[azure.EnvClientSecret]
+	config.ClientID = values[azure.EnvClientID]
+	config.TenantID = values[azure.EnvTenantID]
+	config.PrivateZone = values[azure.EnvPrivateZone] == "true"
 
 	return azure.NewDNSProviderConfig(config)
 }

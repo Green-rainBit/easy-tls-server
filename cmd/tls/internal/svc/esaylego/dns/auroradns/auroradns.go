@@ -8,8 +8,8 @@ import (
 
 func NewDNSProviderByValues(values map[string]string) (*auroradns.DNSProvider, error) {
 
-	if _, ok := values[auroradns.EnvAPIKey]; !ok {
-		return nil, fmt.Errorf("aurora EnvAPIKey is nil")
+	if values[auroradns.EnvAPIKey] == "" || values[auroradns.EnvSecret] == "" {
+		return nil, fmt.Errorf("aurora EnvAPIKey or AURORA_SECRET is nil")
 	}
 
 	config := auroradns.NewDefaultConfig()

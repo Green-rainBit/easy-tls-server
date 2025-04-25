@@ -9,7 +9,7 @@ import (
 func NewDNSProviderByValues(values map[string]string) (*digitalocean.DNSProvider, error) {
 	_, ok := values[digitalocean.EnvAuthToken]
 	if !ok {
-		return nil, fmt.Errorf("digitalocean: EnvAuthToken is nil")
+		return nil, fmt.Errorf("digitalocean: DO_AUTH_TOKEN is nil")
 	}
 
 	config := digitalocean.NewDefaultConfig()

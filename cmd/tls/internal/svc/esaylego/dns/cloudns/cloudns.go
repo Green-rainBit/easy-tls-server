@@ -18,7 +18,7 @@ func NewDNSProviderByValues(values map[string]string) (*cloudns.DNSProvider, err
 	}
 
 	if _, ok := values[cloudns.EnvAuthPassword]; !ok {
-		return nil, fmt.Errorf("ClouDNS: EnvAuthPassword is nil")
+		return nil, fmt.Errorf("ClouDNS: CLOUDNS_AUTH_PASSWORD is nil")
 	}
 
 	config := cloudns.NewDefaultConfig()
