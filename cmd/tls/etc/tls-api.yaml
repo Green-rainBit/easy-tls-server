@@ -8,14 +8,12 @@ LegoConf:
   PrivateKeyStre: 
   Env: 
   DomainMap: 
-    www.03mm.top: 
+    www.demo.top: 
       DNS_CHALLENGE: 
       CLOUDFLARE_EMAIL: 
       CLOUDFLARE_DNS_API_TOKEN: 
-    www.furniturestore.cn: 
+    www.demo.cn: 
       DNS_CHALLENGE: 
       ALICLOUD_ACCESS_KEY: 
       ALICLOUD_SECRET_KEY: 
       ALICLOUD_REGION_ID: 
-        
-  

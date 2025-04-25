@@ -1,189 +1,193 @@
 package dns
 
 import (
-	"esay-tls-server/cmd/tls/internal/svc/esaylego/alidns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/acmedns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/alidns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/auroradns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/azure"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/bindman"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/bluecat"
 	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/cloudflare"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/cloudns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/cloudxns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/conoha"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/designate"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/digitalocean"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dnsimple"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dnsmadeeasy"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dnspod"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dode"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dreamhost"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/duckdns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/dyn"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/easydns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/exec"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/exoscale"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/fastdns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gandi"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gandiv5"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/gcloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/glesys"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/godaddy"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/hostingde"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/httpreq"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/iij"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/inwx"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/joker"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/lightsail"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/linode"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/linodev4"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/mydnsjp"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namecheap"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namedotcom"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/namesilo"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/netcup"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/nifcloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/ns1"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/oraclecloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/otc"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/ovh"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/pdns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/rackspace"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/rfc2136"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/route53"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/sakuracloud"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/selectel"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/stackpath"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/transip"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vegadns"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/versio"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vscale"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/vultr"
+	"esay-tls-server/cmd/tls/internal/svc/esaylego/dns/zoneee"
 	"fmt"
 
-	"github.com/go-acme/lego/providers/dns/fastdns"
-	"github.com/go-acme/lego/providers/dns/linodev4"
 	"github.com/go-acme/lego/v4/challenge"
 	"github.com/go-acme/lego/v4/challenge/dns01"
-	"github.com/go-acme/lego/v4/providers/dns/acmedns"
-	"github.com/go-acme/lego/v4/providers/dns/cloudns"
-	"github.com/go-acme/lego/v4/providers/dns/cloudxns"
-	"github.com/go-acme/lego/v4/providers/dns/conoha"
-	"github.com/go-acme/lego/v4/providers/dns/designate"
-	"github.com/go-acme/lego/v4/providers/dns/digitalocean"
-	"github.com/go-acme/lego/v4/providers/dns/dnsimple"
-	"github.com/go-acme/lego/v4/providers/dns/dnsmadeeasy"
-	"github.com/go-acme/lego/v4/providers/dns/dnspod"
-	"github.com/go-acme/lego/v4/providers/dns/dode"
-	"github.com/go-acme/lego/v4/providers/dns/dreamhost"
-	"github.com/go-acme/lego/v4/providers/dns/duckdns"
-	"github.com/go-acme/lego/v4/providers/dns/dyn"
-	"github.com/go-acme/lego/v4/providers/dns/easydns"
-	"github.com/go-acme/lego/v4/providers/dns/exec"
-	"github.com/go-acme/lego/v4/providers/dns/exoscale"
-	"github.com/go-acme/lego/v4/providers/dns/gandi"
-	"github.com/go-acme/lego/v4/providers/dns/gandiv5"
-	"github.com/go-acme/lego/v4/providers/dns/gcloud"
-	"github.com/go-acme/lego/v4/providers/dns/glesys"
-	"github.com/go-acme/lego/v4/providers/dns/godaddy"
-	"github.com/go-acme/lego/v4/providers/dns/hostingde"
-	"github.com/go-acme/lego/v4/providers/dns/httpreq"
-	"github.com/go-acme/lego/v4/providers/dns/iij"
-	"github.com/go-acme/lego/v4/providers/dns/inwx"
-	"github.com/go-acme/lego/v4/providers/dns/joker"
-	"github.com/go-acme/lego/v4/providers/dns/lightsail"
-	"github.com/go-acme/lego/v4/providers/dns/linode"
-	"github.com/go-acme/lego/v4/providers/dns/mydnsjp"
-	"github.com/go-acme/lego/v4/providers/dns/namecheap"
-	"github.com/go-acme/lego/v4/providers/dns/namedotcom"
-	"github.com/go-acme/lego/v4/providers/dns/namesilo"
-	"github.com/go-acme/lego/v4/providers/dns/netcup"
-	"github.com/go-acme/lego/v4/providers/dns/nifcloud"
-	"github.com/go-acme/lego/v4/providers/dns/ns1"
-	"github.com/go-acme/lego/v4/providers/dns/oraclecloud"
-	"github.com/go-acme/lego/v4/providers/dns/otc"
-	"github.com/go-acme/lego/v4/providers/dns/ovh"
-	"github.com/go-acme/lego/v4/providers/dns/pdns"
-	"github.com/go-acme/lego/v4/providers/dns/rackspace"
-	"github.com/go-acme/lego/v4/providers/dns/rfc2136"
-	"github.com/go-acme/lego/v4/providers/dns/route53"
-	"github.com/go-acme/lego/v4/providers/dns/sakuracloud"
-	"github.com/go-acme/lego/v4/providers/dns/selectel"
-	"github.com/go-acme/lego/v4/providers/dns/stackpath"
-	"github.com/go-acme/lego/v4/providers/dns/transip"
-	"github.com/go-acme/lego/v4/providers/dns/vegadns"
-	"github.com/go-acme/lego/v4/providers/dns/versio"
-	"github.com/go-acme/lego/v4/providers/dns/vscale"
-	"github.com/go-acme/lego/v4/providers/dns/vultr"
-	"github.com/go-acme/lego/v4/providers/dns/zoneee"
 )
 
 func NewDNSChallengeProviderByName(name string, values map[string]string) (challenge.Provider, error) {
 	switch name {
 	case "acme-dns":
-		return acmedns.NewDNSProvider()
+		return acmedns.NewDNSProviderByValues(values)
 	case "alidns":
 		return alidns.NewDNSProviderByValues(values)
-	// case "azure":
-	// 	return azure.NewDNSProvider()
-	// case "auroradns":
-	// 	return auroradns.NewDNSProvider()
-	// case "bindman":
-	// 	return bindman.NewDNSProvider()
-	// case "bluecat":
-	// 	return bluecat.NewDNSProvider()
+	case "azure":
+		return azure.NewDNSProviderByValues(values)
+	case "auroradns":
+		return auroradns.NewDNSProviderByValues(values)
+	case "bindman":
+		return bindman.NewDNSProviderByValues(values)
+	case "bluecat":
+		return bluecat.NewDNSProviderByValues(values)
 	case "cloudflare":
 		return cloudflare.NewDNSProviderByValues(values)
 	case "cloudns":
-		return cloudns.NewDNSProvider()
+		return cloudns.NewDNSProviderByValues(values)
 	case "cloudxns":
-		return cloudxns.NewDNSProvider()
+		return cloudxns.NewDNSProviderByValues(values)
 	case "conoha":
-		return conoha.NewDNSProvider()
+		return conoha.NewDNSProviderByValues(values)
 	case "designate":
-		return designate.NewDNSProvider()
+		return designate.NewDNSProviderByValues(values)
 	case "digitalocean":
-		return digitalocean.NewDNSProvider()
+		return digitalocean.NewDNSProviderByValues(values)
 	case "dnsimple":
-		return dnsimple.NewDNSProvider()
+		return dnsimple.NewDNSProviderByValues(values)
 	case "dnsmadeeasy":
-		return dnsmadeeasy.NewDNSProvider()
+		return dnsmadeeasy.NewDNSProviderByValues(values)
 	case "dnspod":
-		return dnspod.NewDNSProvider()
+		return dnspod.NewDNSProviderByValues(values)
 	case "dode":
-		return dode.NewDNSProvider()
+		return dode.NewDNSProviderByValues(values)
 	case "dreamhost":
-		return dreamhost.NewDNSProvider()
+		return dreamhost.NewDNSProviderByValues(values)
 	case "duckdns":
-		return duckdns.NewDNSProvider()
+		return duckdns.NewDNSProviderByValues(values)
 	case "dyn":
-		return dyn.NewDNSProvider()
+		return dyn.NewDNSProviderByValues(values)
 	case "fastdns":
-		return fastdns.NewDNSProvider()
+		return fastdns.NewDNSProviderByValues(values)
 	case "easydns":
-		return easydns.NewDNSProvider()
+		return easydns.NewDNSProviderByValues(values)
 	case "exec":
-		return exec.NewDNSProvider()
+		return exec.NewDNSProviderByValues(values)
 	case "exoscale":
-		return exoscale.NewDNSProvider()
+		return exoscale.NewDNSProviderByValues(values)
 	case "gandi":
-		return gandi.NewDNSProvider()
+		return gandi.NewDNSProviderByValues(values)
 	case "gandiv5":
-		return gandiv5.NewDNSProvider()
+		return gandiv5.NewDNSProviderByValues(values)
 	case "glesys":
-		return glesys.NewDNSProvider()
+		return glesys.NewDNSProviderByValues(values)
 	case "gcloud":
-		return gcloud.NewDNSProvider()
+		return gcloud.NewDNSProviderByValues(values)
 	case "godaddy":
-		return godaddy.NewDNSProvider()
+		return godaddy.NewDNSProviderByValues(values)
 	case "hostingde":
-		return hostingde.NewDNSProvider()
+		return hostingde.NewDNSProviderByValues(values)
 	case "httpreq":
-		return httpreq.NewDNSProvider()
+		return httpreq.NewDNSProviderByValues(values)
 	case "iij":
-		return iij.NewDNSProvider()
+		return iij.NewDNSProviderByValues(values)
 	case "inwx":
-		return inwx.NewDNSProvider()
+		return inwx.NewDNSProviderByValues(values)
 	case "joker":
-		return joker.NewDNSProvider()
+		return joker.NewDNSProviderByValues(values)
 	case "lightsail":
-		return lightsail.NewDNSProvider()
+		return lightsail.NewDNSProviderByValues(values)
 	case "linode":
-		return linode.NewDNSProvider()
+		return linode.NewDNSProviderByValues(values)
 	case "linodev4":
-		return linodev4.NewDNSProvider()
+		return linodev4.NewDNSProviderByValues(values)
 	case "manual":
 		return dns01.NewDNSProviderManual()
 	case "mydnsjp":
-		return mydnsjp.NewDNSProvider()
+		return mydnsjp.NewDNSProviderByValues(values)
 	case "namecheap":
-		return namecheap.NewDNSProvider()
+		return namecheap.NewDNSProviderByValues(values)
 	case "namedotcom":
-		return namedotcom.NewDNSProvider()
+		return namedotcom.NewDNSProviderByValues(values)
 	case "namesilo":
-		return namesilo.NewDNSProvider()
+		return namesilo.NewDNSProviderByValues(values)
 	case "netcup":
-		return netcup.NewDNSProvider()
+		return netcup.NewDNSProviderByValues(values)
 	case "nifcloud":
-		return nifcloud.NewDNSProvider()
+		return nifcloud.NewDNSProviderByValues(values)
 	case "ns1":
-		return ns1.NewDNSProvider()
+		return ns1.NewDNSProviderByValues(values)
 	case "oraclecloud":
-		return oraclecloud.NewDNSProvider()
+		return oraclecloud.NewDNSProviderByValues(values)
 	case "otc":
-		return otc.NewDNSProvider()
+		return otc.NewDNSProviderByValues(values)
 	case "ovh":
-		return ovh.NewDNSProvider()
+		return ovh.NewDNSProviderByValues(values)
 	case "pdns":
-		return pdns.NewDNSProvider()
+		return pdns.NewDNSProviderByValues(values)
 	case "rackspace":
-		return rackspace.NewDNSProvider()
+		return rackspace.NewDNSProviderByValues(values)
 	case "route53":
-		return route53.NewDNSProvider()
+		return route53.NewDNSProviderByValues(values)
 	case "rfc2136":
-		return rfc2136.NewDNSProvider()
+		return rfc2136.NewDNSProviderByValues(values)
 	case "sakuracloud":
-		return sakuracloud.NewDNSProvider()
+		return sakuracloud.NewDNSProviderByValues(values)
 	case "stackpath":
-		return stackpath.NewDNSProvider()
+		return stackpath.NewDNSProviderByValues(values)
 	case "selectel":
-		return selectel.NewDNSProvider()
+		return selectel.NewDNSProviderByValues(values)
 	case "transip":
-		return transip.NewDNSProvider()
+		return transip.NewDNSProviderByValues(values)
 	case "vegadns":
-		return vegadns.NewDNSProvider()
+		return vegadns.NewDNSProviderByValues(values)
 	case "versio":
-		return versio.NewDNSProvider()
+		return versio.NewDNSProviderByValues(values)
 	case "vultr":
-		return vultr.NewDNSProvider()
+		return vultr.NewDNSProviderByValues(values)
 	case "vscale":
-		return vscale.NewDNSProvider()
+		return vscale.NewDNSProviderByValues(values)
 	case "zoneee":
-		return zoneee.NewDNSProvider()
+		return zoneee.NewDNSProviderByValues(values)
 	default:
 		return nil, fmt.Errorf("unrecognized DNS provider: %s", name)
 	}
