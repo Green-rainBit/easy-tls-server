@@ -7,8 +7,8 @@ import (
 )
 
 func NewDNSProviderByValues(values map[string]string) (*conoha.DNSProvider, error) {
-	if _, ok := values[conoha.EnvTenantID]; ok {
-		return nil, fmt.Errorf("conoha: config is nil")
+	if values[conoha.EnvTenantID] == "" || values[conoha.EnvAPIUsername] == "" || values[conoha.EnvAPIPassword] == "" {
+		return nil, fmt.Errorf("conoha: CONOHA_TENANT_ID or CONOHA_API_USERNAME or CONOHA_API_PASSWORD is nil")
 	}
 
 	config := conoha.NewDefaultConfig()

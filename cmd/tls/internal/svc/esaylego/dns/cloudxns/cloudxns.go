@@ -8,8 +8,8 @@ import (
 )
 
 func NewDNSProviderByValues(values map[string]string) (*cloudxns.DNSProvider, error) {
-	if _, ok := values[v4.EnvAPIKey]; !ok {
-		return nil, fmt.Errorf("CloudXNS: CLOUDXNS_API_KEY is nil ")
+	if values[v4.EnvAPIKey] == "" || values[v4.EnvSecretKey] == "" {
+		return nil, fmt.Errorf("CloudXNS: CLOUDXNS_API_KEY or CLOUDXNS_SECRET_KEY is nil ")
 	}
 
 	config := cloudxns.NewDefaultConfig()

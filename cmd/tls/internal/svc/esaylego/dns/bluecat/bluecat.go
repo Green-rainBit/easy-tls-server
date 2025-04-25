@@ -7,8 +7,8 @@ import (
 )
 
 func NewDNSProviderByValues(values map[string]string) (*bluecat.DNSProvider, error) {
-	if _, ok := values["BLUECAT_SERVER_URL"]; !ok {
-		return nil, fmt.Errorf("bluecat: BLUECAT_SERVER_URL nil")
+	if values["BLUECAT_SERVER_URL"] == "" || values["BLUECAT_USER_NAME"] == "" || values["BLUECAT_PASSWORD"] == "" || values["BLUECAT_CONFIG_NAME"] == "" || values["BLUECAT_DNS_VIEW"] == "" {
+		return nil, fmt.Errorf("bluecat: BLUECAT_SERVER_URL or BLUECAT_USER_NAME or BLUECAT_PASSWORD or BLUECAT_CONFIG_NAME or BLUECAT_DNS_VIEW is nil")
 	}
 
 	config := bluecat.NewDefaultConfig()
