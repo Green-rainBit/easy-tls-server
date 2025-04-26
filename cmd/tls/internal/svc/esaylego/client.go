@@ -18,25 +18,6 @@ type EsayClient struct {
 }
 
 func NewEsayClient(config *lego.Config) (*EsayClient, error) {
-	// tlsClient, err := lego.NewClient(config)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// var kid string
-	// if reg := config.User.GetRegistration(); reg != nil {
-	// 	kid = reg.URI
-	// }
-	// core, err := api.New(config.HTTPClient, config.UserAgent, config.CADirURL, kid, config.User.GetPrivateKey())
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// return &EsayClient{
-	// 	*tlsClient,
-	// 	core,
-	// 	certificate.CertifierOptions{KeyType: config.Certificate.KeyType, Timeout: config.Certificate.Timeout},
-	// }, nil
-
 	if config == nil {
 		return nil, errors.New("a configuration must be provided")
 	}
