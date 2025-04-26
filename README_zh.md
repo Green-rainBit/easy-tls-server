@@ -1,8 +1,9 @@
 **Read this in other languages: [English](README.md), [中文](README_zh.md).**
-# Introduction
-`easy-tls-server` is a TLS certificate generation service based on gozero and lego. It provides stable Let's Encrypt certificates for online services with simple configuration and without middleware. A single service can manage certificates for multiple domains.
+# 介绍
+    easy-tls-server是基于gozero与lego的tls生成证书服务，只需要简单的配置、无需中间件，就可以稳定为在线服务提供Let's Encryptls证书。
+    一个服务管理多个域名证书。
 
-# Configuration Guide
+# 配置说明
 
 ```yml
 Name: tls-api
@@ -11,13 +12,13 @@ Port: 8888
 Timeout: 100000
 
 LegoConf:
-  Email:    		    // Let's Encrypt email
-  PrivateKeyStre:		// Let's Encrypt private key
-  Env:				// production or develop, default is develop
-  DomainMap:		// Domain configuration
-    www.demo.top:		// Domain
-      DNS_CHALLENGE:		// DNS provider
-      CLOUDFLARE_EMAIL:		// Provider key
+  Email:    		    // Let's Encrypt邮箱
+  PrivateKeyStre:		// Let's Encrypt密钥
+  Env:				// production or develop 默认为develop
+  DomainMap:		// 域名配置
+    www.demo.top:		// 域名
+      DNS_CHALLENGE:		// dns 服务商
+      CLOUDFLARE_EMAIL:		// 运营商密钥
       CLOUDFLARE_DNS_API_TOKEN:
     www.demo.cn: 
       DNS_CHALLENGE: 
@@ -26,28 +27,29 @@ LegoConf:
       ALICLOUD_REGION_ID: 
 ```
 
-# Directory Structure
-```
-├── README.md           	// Introduction document
-└── cmd
-    └── tls     			 // TLS service includes include and src folders
-        ├── tls.go 			 // main.go
-        ├── ect 			 // Configuration files
-        |   └── tls-api.yaml  // Configuration file
-        ├── config 			 // Static configuration file structure declaration directory
-        └── internal          // Single service internal files, visible only within the service
-            └── handler		  // Service routing management
-            ├── logic		  // Specific logic
-            ├── svc		      // Dependency injection
-           	|	└── esaylego		  // lego encapsulation
-           	├		└── dns		  		// DNS client encapsulation
-            └── types
-         		   └── types.go   // Structure storage directory
-```
 
-# Usage Instructions
 
-Pre-acquire the Let's Encrypt email and private key, fill them into the `tls-api.yaml` file, and then fill in the configuration information for the corresponding domain certificates.
+
+# 目录结构描述
+    ├── README.md           	// 介绍文档
+    └── cmd
+        └── tls     			 //   tls服务包含各版本的include、src文件夹
+            ├── tls.go 			 //  main.go
+            ├── ect 			 //  存放配置文件
+            |   └── tls-api.yaml  //  配置文件
+            ├── config 			 //  静态配置文件对应的结构体声明目录
+            └── internal          //  单个服务内部文件，其可见范围仅限当前服务
+                └── handler		  //  服务路由管理
+                ├── logic		  //  具体逻辑
+                ├── svc		      //  依赖注入
+               	|	└── esaylego		  //  lego封装
+               	├		└── dns		  		//  dns客户端封装
+                └── types
+         		   └── types.go   //结构体存放目录
+
+# 使用说明
+
+需要预获取Let's Encrypt邮箱与密钥，填写到tls-api.yaml文件内，再填写证书对应的域名的配置信息。
 
 ```sh
 cd cmd
@@ -55,7 +57,8 @@ go mod tidy
 go run tls.go
 ```
 
-## Supported DNS Providers
+
+## 支持的DNS运营商
 
 Detailed documentation is available [here](https://go-acme.github.io/lego/dns).
 
@@ -158,7 +161,7 @@ Detailed documentation is available [here](https://go-acme.github.io/lego/dns).
   <td>iwantmyname</td>
 </tr><tr>
   <td>Joker</td>
-  <td>Joohoi's ACME-DNS</td>
+  <td>Joohoi&#39;s ACME-DNS</td>
   <td>Liara</td>
   <td>Lima-City</td>
 </tr><tr>
@@ -257,6 +260,5 @@ Detailed documentation is available [here](https://go-acme.github.io/lego/dns).
   <td></td>
   <td></td>
 </tr></table>
-```
 
-你可以将上述内容保存为 `README.md` 文件，以提供英文版的文档说明。
+
