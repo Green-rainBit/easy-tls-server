@@ -12,7 +12,7 @@ func NewDNSProviderByValues(values map[string]string) (*alidns.DNSProvider, erro
 	config := alidns.NewDefaultConfig()
 	config.RegionID = values[alidns.EnvRegionID]
 
-	if values[alidns.EnvRAMRole] == "" {
+	if values[alidns.EnvRAMRole] != "" {
 		config.RAMRole = values[alidns.EnvRAMRole]
 		return alidns.NewDNSProviderConfig(config)
 	}

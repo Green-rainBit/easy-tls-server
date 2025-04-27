@@ -1,21 +1,40 @@
 syntax = "v1"
 
-type Request {
+type GetTlsReq {
 	Domains []string `form:"domains"`
 }
 
-type Response {
+type GetTlsResp {
 	Domain            string `json:"domain"`
 	CertURL           string `json:"certUrl"`
 	CertStableURL     string `json:"certStableUrl"`
 	PrivateKey        []byte `json:"privateKey"`
 	Certificate       []byte `json:"certificate"`
-	IssuerCertificate string `json:"issuerCertificate"`
-	CSR               string `json:"cSR"`
+	IssuerCertificate []byte `json:"issuerCertificate"`
+	CSR               []byte `json:"cSR"`
+}
+
+type PostCreateTlsReq {
+	Domains      []string          `json:"domains"`
+	DnsChallenge string            `json:"dnsChallenge"`
+	DnsConfig    map[string]string `json:"dnsConfig"`
+}
+
+type PostCreateTlsResp {
+	Domain            string `json:"domain"`
+	CertURL           string `json:"certUrl"`
+	CertStableURL     string `json:"certStableUrl"`
+	PrivateKey        []byte `json:"privateKey"`
+	Certificate       []byte `json:"certificate"`
+	IssuerCertificate []byte `json:"issuerCertificate"`
+	CSR               []byte `json:"cSR"`
 }
 
 service tls-api {
-	@handler TlsHandler
-	get /getTls (Request) returns (Response)
+	@handler getTlsHandler
+	get /getTls (GetTlsReq) returns (GetTlsResp)
+
+	@handler CreateTlsHandler
+	post /createTls (PostCreateTlsReq) returns (PostCreateTlsResp)
 }
 

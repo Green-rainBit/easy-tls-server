@@ -3,16 +3,32 @@
 
 package types
 
-type Request struct {
+type GetTlsReq struct {
 	Domains []string `form:"domains"`
 }
 
-type Response struct {
+type GetTlsResp struct {
 	Domain            string `json:"domain"`
 	CertURL           string `json:"certUrl"`
 	CertStableURL     string `json:"certStableUrl"`
 	PrivateKey        []byte `json:"privateKey"`
 	Certificate       []byte `json:"certificate"`
-	IssuerCertificate  []byte `json:"issuerCertificate"`
-	CSR                []byte `json:"cSR"`
+	IssuerCertificate []byte `json:"issuerCertificate"`
+	CSR               []byte `json:"cSR"`
+}
+
+type PostCreateTlsReq struct {
+	Domains      []string          `json:"domains"`
+	DnsChallenge string            `json:"dnsChallenge"`
+	DnsConfig    map[string]string `json:"dnsConfig"`
+}
+
+type PostCreateTlsResp struct {
+	Domain            string `json:"domain"`
+	CertURL           string `json:"certUrl"`
+	CertStableURL     string `json:"certStableUrl"`
+	PrivateKey        []byte `json:"privateKey"`
+	Certificate       []byte `json:"certificate"`
+	IssuerCertificate []byte `json:"issuerCertificate"`
+	CSR               []byte `json:"cSR"`
 }

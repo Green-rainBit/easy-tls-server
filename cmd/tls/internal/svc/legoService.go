@@ -83,17 +83,17 @@ type LegoSerivce struct {
 	client *esaylego.EsayClient
 }
 
-func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[string]string) (*certificate.Resource, error) {
+func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[string]string) (certificate.Resource, error) {
 	provider, err := dns.NewDNSChallengeProviderByName(name, values)
 	if err != nil {
-		return nil, err
+		return certificate.Resource{}, err
 	}
 	solversManager := resolver.NewSolversManager(t.client.GetCore())
 	solversManager.SetDNS01Provider(provider)
 	prober := resolver.NewProber(solversManager)
 	certifier := certificate.NewCertifier(t.client.GetCore(), prober, t.client.GetCertifierOptionse())
 	if len(domains) == 0 {
-		return nil, fmt.Errorf("domains not is empty")
+		return certificate.Resource{}, fmt.Errorf("domains not is empty")
 	}
 	request := certificate.ObtainRequest{
 		Domains: domains,
@@ -101,7 +101,10 @@ func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[s
 	}
 	certificates, err := certifier.Obtain(request)
 	if err != nil {
-		return nil, err
+		return certificate.Resource{}, err
 	}
-	return certificates, nil
+	if certificates != nil {
+		return *certificates, nil
+	}
+	return certificate.Resource{}, fmt.Errorf("certificates not is empty")
 }
