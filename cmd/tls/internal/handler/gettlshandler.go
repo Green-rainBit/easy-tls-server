@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strings"
 
 	"esay-tls-server/cmd/tls/internal/logic"
 	"esay-tls-server/cmd/tls/internal/svc"
@@ -10,16 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func TlsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func getTlsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Request
-		if err := httpx.Parse(r, &req); err != nil {
+		var reqDomains struct {
+			Domains string `form:"domains"`
+		}
+		if err := httpx.Parse(r, &reqDomains); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-
-		l := logic.NewTlsLogic(r.Context(), svcCtx)
-		resp, err := l.Tls(&req)
+		idStrings := strings.Split(reqDomains.Domains, ",")
+		req := types.GetTlsReq{
+			Domains: idStrings,
+		}
+		l := logic.NewGetTlsLogic(r.Context(), svcCtx)
+		resp, err := l.GetTls(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

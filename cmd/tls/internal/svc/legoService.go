@@ -2,6 +2,9 @@ package svc
 
 import (
 	"crypto"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
 	"crypto/x509"
 	"encoding/base64"
 	"fmt"
@@ -83,17 +86,17 @@ type LegoSerivce struct {
 	client *esaylego.EsayClient
 }
 
-func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[string]string) (*certificate.Resource, error) {
+func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[string]string) (certificate.Resource, error) {
 	provider, err := dns.NewDNSChallengeProviderByName(name, values)
 	if err != nil {
-		return nil, err
+		return certificate.Resource{}, err
 	}
 	solversManager := resolver.NewSolversManager(t.client.GetCore())
 	solversManager.SetDNS01Provider(provider)
 	prober := resolver.NewProber(solversManager)
 	certifier := certificate.NewCertifier(t.client.GetCore(), prober, t.client.GetCertifierOptionse())
 	if len(domains) == 0 {
-		return nil, fmt.Errorf("domains not is empty")
+		return certificate.Resource{}, fmt.Errorf("domains not is empty")
 	}
 	request := certificate.ObtainRequest{
 		Domains: domains,
@@ -101,7 +104,39 @@ func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[s
 	}
 	certificates, err := certifier.Obtain(request)
 	if err != nil {
-		return nil, err
+		return certificate.Resource{}, err
 	}
-	return certificates, nil
+	if certificates != nil {
+		return *certificates, nil
+	}
+	return certificate.Resource{}, fmt.Errorf("certificates not is empty")
+}
+
+func (t *LegoSerivce) RegisteredLetsEncrypt(email string) (privateKeyStr string, err error) {
+	ecPrivateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		return "", err
+	}
+	privateKey, err := x509.MarshalECPrivateKey(ecPrivateKey)
+	if err != nil {
+		return "", err
+	}
+	myUser := myUser{
+		Email:        email,
+		Key:          ecPrivateKey,
+		Registration: &registration.Resource{},
+	}
+	config := lego.NewConfig(&myUser)
+	config.CADirURL = lego.LEDirectoryProduction
+	config.Certificate.KeyType = certcrypto.EC256
+	client, err := lego.NewClient(config)
+	if err != nil {
+		return "", err
+	}
+	regOptions := registration.RegisterOptions{TermsOfServiceAgreed: true}
+	_, err = client.Registration.Register(regOptions)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(privateKey), nil
 }

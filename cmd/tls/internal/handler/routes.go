@@ -15,10 +15,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodPost,
+				Path:    "/createTls",
+				Handler: createTlsHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/getTls",
-				Handler: TlsHandler(serverCtx),
+				Handler: getTlsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/registered/lets/encrypt",
+				Handler: registeredLetsEncryptHandler(serverCtx),
 			},
 		},
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1"),
 	)
 }
