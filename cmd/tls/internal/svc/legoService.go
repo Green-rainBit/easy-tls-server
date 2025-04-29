@@ -2,6 +2,9 @@ package svc
 
 import (
 	"crypto"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
 	"crypto/x509"
 	"encoding/base64"
 	"fmt"
@@ -107,4 +110,33 @@ func (t *LegoSerivce) GetTlsByDomain(domains []string, name string, values map[s
 		return *certificates, nil
 	}
 	return certificate.Resource{}, fmt.Errorf("certificates not is empty")
+}
+
+func (t *LegoSerivce) RegisteredLetsEncrypt(email string) (privateKeyStr string, err error) {
+	ecPrivateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		return "", err
+	}
+	privateKey, err := x509.MarshalECPrivateKey(ecPrivateKey)
+	if err != nil {
+		return "", err
+	}
+	myUser := myUser{
+		Email:        email,
+		Key:          ecPrivateKey,
+		Registration: &registration.Resource{},
+	}
+	config := lego.NewConfig(&myUser)
+	config.CADirURL = lego.LEDirectoryProduction
+	config.Certificate.KeyType = certcrypto.EC256
+	client, err := lego.NewClient(config)
+	if err != nil {
+		return "", err
+	}
+	regOptions := registration.RegisterOptions{TermsOfServiceAgreed: true}
+	_, err = client.Registration.Register(regOptions)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(privateKey), nil
 }

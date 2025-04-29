@@ -14,6 +14,6 @@ type Config struct {
 type Lego struct {
 	Email          string
 	PrivateKeyStre string
-	Env            string
+	Env            string `json:",optional"`
 	DomainMap      map[string]map[string]string
 }

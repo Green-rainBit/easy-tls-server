@@ -1,6 +1,6 @@
 **Read this in other languages: [English](README.md), [中文](README_zh.md).**
 # 介绍
-    easy-tls-server是基于gozero与lego的tls生成证书服务，只需要简单的配置、无需中间件，就可以稳定为多个域名不同的服务在线服务提供Let's Encryptls证书。
+    easy-tls-server是基于gozero与lego的tls生成证书服务，只需要简单的配置、无需中间件，就可以稳定为多个域名不同的服务在线服务提供Let's Encrypt tls证书。
     可以通过easy-tls-server实现多服务的不停机更换tls证书
 
 # 配置说明
@@ -56,7 +56,7 @@ cd cmd
 go mod tidy
 go run tls.go
 
-GET http://127.0.0.1:8888/getTls?domains=www.demo.top
+GET http://127.0.0.1:8888/v1/getTls?domains=www.demo.top
 
 * 响应
 {

@@ -32,3 +32,11 @@ type PostCreateTlsResp struct {
 	IssuerCertificate []byte `json:"issuerCertificate"`
 	CSR               []byte `json:"cSR"`
 }
+
+type PostRegisteredLetsEncryptReq struct {
+	Email string `json:"email"`
+}
+
+type PostRegisteredLetsEncryptResp struct {
+	PrivateKeyStre string `json:"privateKeyStre"`
+}

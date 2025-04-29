@@ -88,6 +88,9 @@ func (l *GetTlsLogic) analyseGetTheUpdateTime(domains []string) map[string]strin
 				break
 			}
 		}
+		if mapDomain != nil {
+			break
+		}
 	}
 	return mapDomain
 }

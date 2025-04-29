@@ -30,11 +30,26 @@ type PostCreateTlsResp {
 	CSR               []byte `json:"cSR"`
 }
 
+type PostRegisteredLetsEncryptReq {
+	Email string `json:"email"`
+}
+
+type PostRegisteredLetsEncryptResp {
+	PrivateKeyStre string `json:"privateKeyStre"`
+}
+
+@server (
+	signature: true // 通过 signature 关键字开启签名功能
+	prefix:    /v1 // 对当前 Foo 语法块下的所有路由，新增 /v1 路由前缀，不需要则请删除此行
+)
 service tls-api {
 	@handler getTlsHandler
 	get /getTls (GetTlsReq) returns (GetTlsResp)
 
-	@handler CreateTlsHandler
+	@handler createTlsHandler
 	post /createTls (PostCreateTlsReq) returns (PostCreateTlsResp)
+
+	@handler registeredLetsEncryptHandler
+	post /registered/lets/encrypt (PostRegisteredLetsEncryptReq) returns (PostRegisteredLetsEncryptResp)
 }
 

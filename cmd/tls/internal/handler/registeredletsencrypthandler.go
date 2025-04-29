@@ -9,16 +9,16 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func createTlsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func registeredLetsEncryptHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PostCreateTlsReq
+		var req types.PostRegisteredLetsEncryptReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewCreateTlsLogic(r.Context(), svcCtx)
-		resp, err := l.CreateTls(&req)
+		l := logic.NewRegisteredLetsEncryptLogic(r.Context(), svcCtx)
+		resp, err := l.RegisteredLetsEncrypt(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
