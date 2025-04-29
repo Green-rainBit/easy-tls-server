@@ -56,7 +56,7 @@ cd cmd
 go mod tidy
 go run tls.go
 
-GET http://127.0.0.1:8888/v1/getTls?domains=www.demo.top
+GET http://127.0.0.1:8888/v1/get/tls?domains=www.demo.top
 
 * 响应
 {

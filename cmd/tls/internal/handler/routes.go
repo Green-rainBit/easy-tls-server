@@ -16,12 +16,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/createTls",
+				Path:    "/create/tls",
 				Handler: createTlsHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/getTls",
+				Path:    "/get/tls",
 				Handler: getTlsHandler(serverCtx),
 			},
 			{
