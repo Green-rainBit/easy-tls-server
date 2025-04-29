@@ -54,7 +54,7 @@ cd cmd
 go mod tidy
 go run tls.go
 
-GET http://127.0.0.1:8888/getTls?domains=www.demo.top
+GET http://127.0.0.1:8888/get/tls?domains=www.demo.top
 
 * Response
 {

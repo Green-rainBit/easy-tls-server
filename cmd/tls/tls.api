@@ -44,10 +44,10 @@ type PostRegisteredLetsEncryptResp {
 )
 service tls-api {
 	@handler getTlsHandler
-	get /getTls (GetTlsReq) returns (GetTlsResp)
+	get /get/tls (GetTlsReq) returns (GetTlsResp)
 
 	@handler createTlsHandler
-	post /createTls (PostCreateTlsReq) returns (PostCreateTlsResp)
+	post /create/tls (PostCreateTlsReq) returns (PostCreateTlsResp)
 
 	@handler registeredLetsEncryptHandler
 	post /registered/lets/encrypt (PostRegisteredLetsEncryptReq) returns (PostRegisteredLetsEncryptResp)
