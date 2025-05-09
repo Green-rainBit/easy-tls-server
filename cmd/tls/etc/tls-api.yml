@@ -3,9 +3,12 @@ Host: 0.0.0.0
 Port: 8888
 Timeout: 100000
 
-Auth:
-  AccessSecret: 
-  AccessExpire: 
+signature:
+  Strict: false
+  Expiry: 9h
+  PrivateKeys:
+    - Fingerprint: "123456"
+      KeyFile: etc/data/id_rsa
 LegoConf:
   Email: 
   PrivateKeyStre: 
