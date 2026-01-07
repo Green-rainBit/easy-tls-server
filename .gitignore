@@ -1,1 +1,3 @@
 cmd/tls/etc/tls-api.yaml
+.gitignore
+/.vscode
