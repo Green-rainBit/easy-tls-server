@@ -1,1 +1,3 @@
 *.yml
+.gitignore
+/.vscode
